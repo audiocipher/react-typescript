@@ -1,7 +1,35 @@
-import './App.css';
+import { useState } from 'react';
+
+import NewTodo from './components/NewTodo';
+import Todos from './components/Todos';
+
+import Todo from './models/todo';
 
 function App() {
-  return <div></div>;
+  const [todos, setTodos] = useState<Todo[]>([]);
+
+  console.log('todos:', todos);
+
+  const handleAddTodo = (todoText: string) => {
+    const newTodo = new Todo(todoText);
+
+    setTodos((prevTodos) => {
+      return prevTodos.concat(newTodo);
+    });
+  };
+
+  const handleRemoveTodo = (todoId: string) => {
+    setTodos((prevTodos) => {
+      return prevTodos.filter((todo) => todo.id !== todoId);
+    });
+  };
+
+  return (
+    <div>
+      <NewTodo onAddTodo={handleAddTodo} />
+      <Todos items={todos} onRemoveTodo={handleRemoveTodo} />
+    </div>
+  );
 }
 
 export default App;
