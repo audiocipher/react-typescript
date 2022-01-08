@@ -6,22 +6,24 @@
 // In this example, the items string array will be merged with the props that already has props.children
 // To make the items prop optional, use items?: string[]
 
+import { useContext } from 'react';
+
+import { TodosContext } from '../store/todos-context';
+
 import TodoItem from './TodoItem';
-import Todo from '../models/todo';
 import styles from './Todos.module.css';
 
-const Todos: React.FC<{
-  items: Todo[];
-  onRemoveTodo: (todoId: string) => void;
-}> = (props) => {
+const Todos: React.FC = () => {
+  const todosCtx = useContext(TodosContext);
+
   return (
     <ul className={styles.todos}>
-      {props.items.map((item) => (
+      {todosCtx.items.map((item) => (
         <TodoItem
           key={item.id}
           id={item.id}
           text={item.text}
-          onRemoveTodo={props.onRemoveTodo}
+          onRemoveTodo={todosCtx.removeTodo}
         />
       ))}
     </ul>
